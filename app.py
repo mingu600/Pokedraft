@@ -84,6 +84,10 @@ def main():
                             im_tag = '-t.png'
                         else:
                             im_tag = '-s.png'
+                    elif pkmn == 'zygarde10':
+                        im_tag = '-10.png'
+                    elif pkmn == 'zygardecomplete':
+                        im_tag = '-c.png'
                     images.append(image_url + str(total_df.loc[mon]['num']).zfill(3) +  im_tag)
                 st.subheader("Score: " + str(round(float(score), 3)))
                 st.image(images, caption=names, width=200)
