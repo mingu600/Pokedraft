@@ -256,7 +256,7 @@ def _calculate_best_mons(next_df, config, useful_config, total_df, curr_team, ot
     # Cost range
     next_df = next_df[(next_df['cost'].apply(min) > config['cost_range'][0]) & (next_df['cost'].apply(max) < config['cost_range'][1])]
     # Types
-    next_df = next_df[next_df['types'].apply(lambda x: set(config['types']).issubset(x))]
+    next_df = next_df[next_df['types'].apply(lambda x: not set(config['types']).isdisjoint(x))]
     # Rocks
     if config['rocks']:
         next_df = next_df[next_df['stealthrock'] == 1]
