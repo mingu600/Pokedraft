@@ -21,7 +21,7 @@ def evaluate_resists(total_df, team):
 def create_total_df(cost_dict):
     return _create_total_df(cost_dict)
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def calculate_best_mons(next_df, config, useful_config, total_df, curr_team, others_drafted, keep_n=10):
     return _calculate_best_mons(next_df, config, useful_config, total_df, curr_team, others_drafted, keep_n=10)
 
@@ -62,35 +62,40 @@ def main():
         group_df = create_group_df(total_df, num_mons)
         next_df = group_df.copy()
         if st.button("Calculate best candidate Pokémon to draft", type="primary"):
-            result = calculate_best_mons(next_df, config, useful_config, total_df, curr_team, others_drafted, keep_n=10)
-            for score, group in result:
-                names = []
-                images = []
-                for mon in group:
-                    name = total_df.loc[mon]['name']
-                    pkmn = total_df.loc[mon]['pokemon']
-                    names.append(name)
-                    im_tag = '.png'
-                    if 'mega' in pkmn and pkmn != 'meganium':
-                        im_tag = '-m.png'
-                    elif 'hisui' in pkmn:
-                        im_tag = '-h.png'
-                    elif 'galar' in pkmn:
-                        im_tag = '-g.png'
-                    elif 'alola' in pkmn:
-                        im_tag = '-a.png'
-                    elif 'therian' in pkmn:
-                        if 'enamorus' in pkmn:
-                            im_tag = '-t.png'
-                        else:
-                            im_tag = '-s.png'
-                    elif pkmn == 'zygarde10':
-                        im_tag = '-10.png'
-                    elif pkmn == 'zygardecomplete':
-                        im_tag = '-c.png'
-                    images.append(image_url + str(total_df.loc[mon]['num']).zfill(3) +  im_tag)
-                st.subheader("Score: " + str(round(float(score), 3)))
-                st.image(images, caption=names, width=200)
+            with st.spinner('Calculating...'):
+                result = calculate_best_mons(next_df, config, useful_config, total_df, curr_team, others_drafted, keep_n=10)
+            if not result:
+                st.subheader(":red[No results. Please edit restrictions and try again.]")
+            else:
+                st.success('Done!')
+                for score, group in result:
+                    names = []
+                    images = []
+                    for mon in group:
+                        name = total_df.loc[mon]['name']
+                        pkmn = total_df.loc[mon]['pokemon']
+                        names.append(name)
+                        im_tag = '.png'
+                        if 'mega' in pkmn and pkmn != 'meganium':
+                            im_tag = '-m.png'
+                        elif 'hisui' in pkmn:
+                            im_tag = '-h.png'
+                        elif 'galar' in pkmn:
+                            im_tag = '-g.png'
+                        elif 'alola' in pkmn:
+                            im_tag = '-a.png'
+                        elif 'therian' in pkmn:
+                            if 'enamorus' in pkmn:
+                                im_tag = '-t.png'
+                            else:
+                                im_tag = '-s.png'
+                        elif pkmn == 'zygarde10':
+                            im_tag = '-10.png'
+                        elif pkmn == 'zygardecomplete':
+                            im_tag = '-c.png'
+                        images.append(image_url + str(total_df.loc[mon]['num']).zfill(3) +  im_tag)
+                    st.subheader("Score: " + str(round(float(score), 3)))
+                    st.image(images, caption=names, width=200)
 
 if __name__ == "__main__":
     main()

@@ -203,7 +203,7 @@ def _create_group_df(total_df, num_mons):
 
 def restrictions(nec, total_df, config, nec_config=None):
     if nec:
-        st.header("Necessary constraints for candidate Pokémon selection", divider='blue')
+        st.header("Necessary constraints for candidate Pokémon selection (the more constraints, the faster the calculations)", divider='blue')
     else:
         st.header("Useful conditions for candidate Pokémon selection (nice to haves)", divider='blue')
     if nec:
