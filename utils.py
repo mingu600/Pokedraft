@@ -201,51 +201,51 @@ def _create_group_df(total_df, num_mons):
     return pd.DataFrame(groups,columns= ['pokemon', 'cost', 'types', 'stealthrock', 'spe'])
 
 
-def restrictions(nec, total_df, config, nec_config=None):
+def restrictions(nec, total_df, config, col, nec_config=None):
     if nec:
-        st.header("Necessary constraints for candidate Pokémon selection (the more constraints, the faster the calculations)", divider='blue')
+        col.header("Necessary constraints", divider='blue')
     else:
-        st.header("Useful conditions for candidate Pokémon selection (nice to haves)", divider='blue')
+        col.header("Useful conditions", divider='blue')
     if nec:
-        nec_cost_bool = st.toggle("Cost restrictions", key=str(nec) + " cost toggle")
+        nec_cost_bool = col.toggle("Cost restrictions", key=str(nec) + " cost toggle")
         if nec_cost_bool:
-            nec_cost_start, nec_cost_end = st.select_slider(label="All candidate Pokémon need to be within this cost range.", options = range(min(total_df['cost']), max(total_df['cost']) + 1), value=[min(total_df['cost']), max(total_df['cost'])], key="nec cost")
+            nec_cost_start, nec_cost_end = col.select_slider(label="All candidate Pokémon need to be within this cost range.", options = range(min(total_df['cost']), max(total_df['cost']) + 1), value=[min(total_df['cost']), max(total_df['cost'])], key="nec cost")
             config["cost_range"] = (nec_cost_start, nec_cost_end)
     else:
-       team_resist_bool = st.toggle("If turned on, candidate Pokémon will be evaluated alongside previously drafted Pokémon to check for any type weaknesses as a whole. Recommended to be turned on.", key=str(nec) + " cost toggle")
+       team_resist_bool = col.toggle("If turned on, candidate Pokémon will be evaluated alongside previously drafted Pokémon to check for any type weaknesses as a whole. Recommended to be turned on.", key=str(nec) + " cost toggle")
        if team_resist_bool:
-            res_weight = st.slider("How important is this condition? Weights are from 0 to 1.", min_value = 0., max_value = 1., value = 1., step = 0.1, key="useful resist weight")
+            res_weight = col.slider("How important is this condition? Weights are from 0 to 1.", min_value = 0., max_value = 1., value = 1., step = 0.1, key="useful resist weight")
             config["team_resists"] = res_weight
 
 
-    nec_type_bool = st.toggle("Type restrictions", key=str(nec) + " type toggle")
+    nec_type_bool = col.toggle("Type restrictions", key=str(nec) + " type toggle")
     if nec_type_bool:
         if nec:
-            nec_types= st.multiselect(label="At least one candidate Pokémon needs to be of these following types.", options = all_types, key="nec type")
+            nec_types= col.multiselect(label="At least one candidate Pokémon needs to be of these following types.", options = all_types, key="nec type")
             config["types"] = nec_types
 
         else:
-            nec_types= st.multiselect(label= "At least one candidate Pokémon should be one of the following types.", options = all_types, key="useful type")
-            type_weight = st.slider("How important is this condition? Weights are from 0 to 1.", min_value = 0., max_value = 1., value = 1., step = 0.1, key="useful type weight")
+            nec_types= col.multiselect(label= "At least one candidate Pokémon should be one of the following types.", options = all_types, key="useful type")
+            type_weight = col.slider("How important is this condition? Weights are from 0 to 1.", min_value = 0., max_value = 1., value = 1., step = 0.1, key="useful type weight")
             config["types"] = (nec_types, type_weight)
         
     if nec:
-        rocks_bool = st.toggle("At least one candidate Pokémon needs to learn Stealth Rock", key=str(nec) + " rocks toggle")
+        rocks_bool = col.toggle("At least one candidate Pokémon needs to learn Stealth Rock", key=str(nec) + " rocks toggle")
         config["rocks"] = rocks_bool
     else:
         if not nec_config['rocks']:
-            rocks_bool = st.toggle("If possible, at least one candidate Pokémon should learn Stealth Rock")
+            rocks_bool = col.toggle("If possible, at least one candidate Pokémon should learn Stealth Rock")
             if rocks_bool:
-                rocks_weight = st.slider("How important is this condition? Weights are from 0 to 1.", min_value = 0., max_value = 1., value = 1., step = 0.1, key="useful rocks weight")
+                rocks_weight = col.slider("How important is this condition? Weights are from 0 to 1.", min_value = 0., max_value = 1., value = 1., step = 0.1, key="useful rocks weight")
                 config["rocks"] = rocks_weight
-    nec_speed_bool = st.toggle("Speed restrictions", key=str(nec) + " speed toggle")
+    nec_speed_bool = col.toggle("Speed restrictions", key=str(nec) + " speed toggle")
     if nec_speed_bool:
         if nec:
-            nec_speed_start, nec_speed_end = st.select_slider(label="At least one candidate Pokémon needs to be within this base speed range.", options = range(min(total_df['spe']), max(total_df['spe']) + 1), value=[min(total_df['spe']), max(total_df['spe'])], key="nec speed")
+            nec_speed_start, nec_speed_end = col.select_slider(label="At least one candidate Pokémon needs to be within this base speed range.", options = range(min(total_df['spe']), max(total_df['spe']) + 1), value=[min(total_df['spe']), max(total_df['spe'])], key="nec speed")
             config["speed_range"] = (nec_speed_start, nec_speed_end)
         else:
-            nec_speed_start, nec_speed_end = st.select_slider(label="Ideally, at least one candidate Pokémon should be within this base speed range if possible.", options = range(min(total_df['spe']), max(total_df['spe']) + 1), value=[min(total_df['spe']), max(total_df['spe'])], key="useful speed")
-            speed_weight = st.slider("How important is this condition? Weights are from 0 to 1.", min_value = 0., max_value = 1., value = 1., step = 0.1, key="useful speed weight")
+            nec_speed_start, nec_speed_end = col.select_slider(label="Ideally, at least one candidate Pokémon should be within this base speed range if possible.", options = range(min(total_df['spe']), max(total_df['spe']) + 1), value=[min(total_df['spe']), max(total_df['spe'])], key="useful speed")
+            speed_weight = col.slider("How important is this condition? Weights are from 0 to 1.", min_value = 0., max_value = 1., value = 1., step = 0.1, key="useful speed weight")
             config["speed_range"] = ((nec_speed_start, nec_speed_end), speed_weight)
     return config
 
