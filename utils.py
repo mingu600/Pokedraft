@@ -274,7 +274,7 @@ def _calculate_best_mons(next_df, config, useful_config, total_df, curr_team, ot
             speed_bool = 0
             config_vals = useful_config['speed_range']
             for spe in row['spe']:
-                if spe >= config_vals[0] and spe <= config_vals[1]:
+                if spe >= config_vals[0][0] and spe <= config_vals[0][1]:
                     speed_bool = 1
                     break
             score += speed_bool * config_vals[2]
