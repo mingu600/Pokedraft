@@ -205,7 +205,7 @@ def restrictions(nec, total_df, config, nec_config=None):
     if nec:
         st.header("Necessary constraints for candidate Pokémon selection", divider='blue')
     else:
-        st.header("Useful conditions for candidate Pokémon selection", divider='blue')
+        st.header("Useful conditions for candidate Pokémon selection (nice to haves)", divider='blue')
     if nec:
         nec_cost_bool = st.toggle("Cost restrictions", key=str(nec) + " cost toggle")
         if nec_cost_bool:
@@ -244,7 +244,7 @@ def restrictions(nec, total_df, config, nec_config=None):
             nec_speed_start, nec_speed_end = st.select_slider(label="At least one candidate Pokémon needs to be within this base speed range.", options = range(min(total_df['spe']), max(total_df['spe']) + 1), value=[min(total_df['spe']), max(total_df['spe'])], key="nec speed")
             config["speed_range"] = (nec_speed_start, nec_speed_end)
         else:
-            nec_speed_start, nec_speed_end = st.select_slider(label="At least one candidate Pokémon should be within this base speed range.", options = range(min(total_df['spe']), max(total_df['spe']) + 1), value=[min(total_df['spe']), max(total_df['spe'])], key="useful speed")
+            nec_speed_start, nec_speed_end = st.select_slider(label="Ideally, at least one candidate Pokémon should be within this base speed range if possible.", options = range(min(total_df['spe']), max(total_df['spe']) + 1), value=[min(total_df['spe']), max(total_df['spe'])], key="useful speed")
             speed_weight = st.slider("How important is this condition? Weights are from 0 to 1.", min_value = 0., max_value = 1., value = 1., step = 0.1, key="useful speed weight")
             config["speed_range"] = ((nec_speed_start, nec_speed_end), speed_weight)
     return config
@@ -277,7 +277,7 @@ def _calculate_best_mons(next_df, config, useful_config, total_df, curr_team, ot
                 if spe >= config_vals[0][0] and spe <= config_vals[0][1]:
                     speed_bool = 1
                     break
-            score += speed_bool * config_vals[2]
+            score += speed_bool * config_vals[1]
 
         if 'rocks' in useful_config:
             score += useful_config['rocks'] * row['stealthrock']
