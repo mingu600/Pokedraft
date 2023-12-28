@@ -2,7 +2,6 @@ from data import default_config, image_url
 from utils import preprocess_name, _create_total_df, _evaluate_resists, _create_group_df, _name_to_mon, restrictions, _calculate_best_mons
 import pandas as pd
 import numpy as np
-from pyinstrument import Profiler
 import streamlit as st
 
 @st.cache_resource
@@ -27,8 +26,6 @@ def calculate_best_mons(next_df, config, useful_config, total_df, curr_team, oth
     return _calculate_best_mons(next_df, config, useful_config, total_df, curr_team, others_drafted, keep_n=10)
 
 def main():
-    # profiler = Profiler()
-    # profiler.start()
     st.title('PokéDraft')
 
     st.header('Upload costs for Pokémon as a csv file')
@@ -91,9 +88,5 @@ def main():
                 st.subheader("Score: " + str(round(float(score), 3)))
                 st.image(images, caption=names, width=200)
 
-
-        # # profiler.stop()
-
-        # # profiler.print()
 if __name__ == "__main__":
     main()
