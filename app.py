@@ -42,7 +42,7 @@ def create_team_chart(curr_team, total_df):
     return _create_team_chart(curr_team, total_df)
 
 def main():
-    title_cols = st.columns([0.01, 0.12, 0.1, 0.5, 0.8])
+    title_cols = st.columns([0.01, 0.12, 0.04, 0.5, 0.8])
     title_cols[1].image('spheal-modified.png', width=100)
     title_cols[3].title('PokéDraft')
     tab1, tab2, tab3, tab4 = st.tabs(["Calculate best candidate Pokémon to draft", "What is PokéDraft?", "Google Sheets Format", "About me / Report a bug"])
