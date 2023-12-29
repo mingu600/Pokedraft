@@ -120,7 +120,6 @@ def main():
 
         typechart_expander = st.expander("Team type weakness chart")
         with typechart_expander:
-
             st.markdown(
                 change_color(typechart_df.to_html(escape=False, formatters=dict(Pokémon=path_to_image_html), index=False)),
                 unsafe_allow_html=True,
