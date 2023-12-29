@@ -589,8 +589,7 @@ def _create_team_chart(curr_team, total_df):
 
 def change_color(html):
     soup = BeautifulSoup(html, 'html.parser')
-    for cell in soup:
-        cell['width'] = '2%'
+    soup.table['width'] = '2%'
     for cell in soup.find_all('td'):
         if 'img src' not in cell:
             cell['align'] = 'center'
