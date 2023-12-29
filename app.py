@@ -135,7 +135,7 @@ def main():
             )
 
         #col1, dummy, col2, col3 = st.columns([1, 0.25, 1, 1])
-        dummy1, col1, result_col = st_tweaker.columns(spec = [0.01, 1.5, 2.25], id = "main_cols",css = "#main_cols {overflow: auto; height: 70vh;}")
+        dummy1, col1, dummy3, result_col, dummy4 = st_tweaker.columns(spec = [0.01, 1.5, 2.25/3, 2.25/3, 2.25/3], id = "main_cols",css = "#main_cols {overflow: auto; height: 70vh;}")
 
 
         num_mons = col1.radio("Number of candidate Pokémon to evaluate", [1, 2], horizontal=True)
