@@ -7,7 +7,7 @@ with open('pokedex.json', 'r', encoding="utf8") as f:
 with open('typechart.json', 'r') as f:
   typechart = json.load(f)
 
-priority_moves = ['accelerock', 'aquajet','bulletpunch','extremespeed','fakeout','firstimpression','iceshard','machpunch','quickattack',
+priority_moves = ['accelerock', 'aquajet','bulletpunch','extremespeed','firstimpression','iceshard','machpunch','quickattack',
 'shadowsneak','suckerpunch','vacuumwave','watershuriken', 'jetpunch', 'thunderclap']
 momentum = ['uturn','voltswitch','flipturn','partingshot','teleport','batonpass']
 stats = ['hp', 'atk', 'def', 'spa', 'spd']

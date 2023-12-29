@@ -57,6 +57,7 @@ def main():
         st.write("For example, checking Stealth Rock under hazard setting restrictions means that, if # of Pokémon is set to 2, at least 1 of them has to learn Stealth Rock.")
         st.write("If # of Pokémon is set to 1, then the one suggested Pokémon MUST learn Stealth Rock.")
         st.write("For typing constraints, at least one of the Pokémon must be of one of the types you provide. For stat restrictions, at least one of the Pokémon need to have that stat>=110 (the bound for HP is 90).")
+        st.write("Priority moves are defined as damaging +priority moves that aren't Fake Out or Feint.")
         st.write("The more necessary constraints you add, the faster a solution is found, because you are filtering the entire pool of Pokémon smaller and smaller.")
         st.subheader("Useful Conditions")
         st.write("Useful conditions are extra conditions that are nice to have, but not required. These are the conditions that will lead to the score reported by the tool, as a way of differentiating between possibilities.")
@@ -67,6 +68,7 @@ def main():
     with tab3:
         st.header("Google Sheets Format")
         st.write("Here is an example of what PokéDraft expects: https://docs.google.com/spreadsheets/d/1xCcVPFrUA3C_wMm3e3SKj0p2pCOp_8RVPzpPQxzeHMg/edit#gid=1562113146")
+        st.write("I suggest just making a copy of this google sheets and modifying the copy, and then pasting that link into the tool.")
         st.write("Remember to set sharing options to allow anyone with link to view.")
         st.write("The doc must have 3 sheets with these exact names: MyTeam, OthersDrafted, and Tiers. For MyTeam and OthersDrafted, list the relevant Pokemon as a single column.")
         st.write("For the Tiers sheet, make sure to take note of how the tiers are formatted and copy it exactly (with the max cost as the first column, all the costs as the first row headers, etc).")
