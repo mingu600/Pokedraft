@@ -1,5 +1,6 @@
 from data import default_config, image_url, col_dict, all_types
-from utils import preprocess_name, _create_total_df, _evaluate_resists, _create_group_df, _name_to_mon, restrictions, _calculate_best_mons, _gsheets, get_image, path_to_image_html, _create_chart, change_color, _create_team_chart
+from utils import preprocess_name, _create_total_df, _evaluate_resists, _create_group_df, _name_to_mon, restrictions
+from utils import _calculate_best_mons, _gsheets, get_image, path_to_image_html, _create_chart, change_color, _create_team_chart, modify_table
 import pandas as pd
 import streamlit as st
 from tweaker import st_tweaker
@@ -117,14 +118,21 @@ def main():
                 change_color(teamchart_df.to_html(escape=False, formatters=dict(Pokémon=path_to_image_html), index=False)),
                 unsafe_allow_html=True,
             )      
-
+        st.markdown("""<style>
+                    .table-wrapper {
+                        width: 100%;
+                        overflow: auto;
+                        white-space: nowrap;
+                    } 
+                    </style>""",unsafe_allow_html=True
+            )
         typechart_expander = st.expander("Team type weakness chart")
-        # with typechart_expander:
-        print(typechart_df.to_html(escape=False, formatters=dict(Pokémon=path_to_image_html), index=False))
-        typechart_expander.markdown(
-            change_color(typechart_df.to_html(escape=False, formatters=dict(Pokémon=path_to_image_html), index=False)),
-            unsafe_allow_html=True,
-        )
+        with typechart_expander:
+            #print(modify_table(change_color(typechart_df.to_html(escape=False, formatters=dict(Pokémon=path_to_image_html), index=False))))
+            st.markdown(
+                modify_table(change_color(typechart_df.to_html(escape=False, formatters=dict(Pokémon=path_to_image_html), index=False))),
+                unsafe_allow_html=True,
+            )
 
         #col1, dummy, col2, col3 = st.columns([1, 0.25, 1, 1])
         dummy1, col1, dummy, col2, col3 = st_tweaker.columns(spec = [0.01, 1.5, 0.25, 1, 1], id = "main_cols",css = "#main_cols {overflow: auto; height: 70vh;}")
