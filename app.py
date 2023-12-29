@@ -81,8 +81,7 @@ def main():
         cost_dict = {}
         curr_team = []
         others_drafted = []
-        a1, a2 = st.columns([0.82, 0.18])
-        link = a1.text_input("Google Sheets URL (see 'Google Sheets Format' tab for details)")
+        link = st.text_input("Google Sheets URL (see 'Google Sheets Format' tab for details)")
         try:
             base = link[link.find('/d/') + 3: link.find('/edit')]
             curr_team = gsheets(base, 'MyTeam').values
@@ -94,7 +93,7 @@ def main():
                     cost_dict[preprocess_name(mon)] = int(index)
 
         except:
-            a1.write(":red[URL or Google Sheets format incorrect. Please refer to 'Google Sheets Format' for instructions]")
+            st.write(":red[URL or Google Sheets format incorrect. Please refer to 'Google Sheets Format' for instructions]")
             st.stop()
 
         total_df = create_total_df(cost_dict)
@@ -112,14 +111,14 @@ def main():
         teamchart_df = pd.DataFrame({'Pokémon': sprites, 'Ability 1': ability1, 'Ability 2': ability2, 'Ability 3': ability3, 'Stealth Rock':stealthrock, 'Spikes': spikes, 'Toxic Spikes': toxicspikes,
                                      'Sticky Web': stickyweb, 'Defog': defog, 'Rapid Spin': rapidspin, 'Wish': wish, 'Status Heal': statusheal, 'Momentum': momentum, 'Priority': priority})
 
-        team_expander = a1.expander("Team info")
+        team_expander = st.expander("Team info")
         with team_expander:
             st.markdown(
                 change_color(teamchart_df.to_html(escape=False, formatters=dict(Pokémon=path_to_image_html), index=False)),
                 unsafe_allow_html=True,
             )      
 
-        typechart_expander = a1.expander("Team type weakness chart")
+        typechart_expander = st.expander("Team type weakness chart")
         with typechart_expander:
 
             st.markdown(
